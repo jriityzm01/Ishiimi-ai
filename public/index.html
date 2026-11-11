@@ -187,7 +187,6 @@
     <div class="bg-overlay"></div>
 
     <aside class="sidebar" id="sidebar">
-        <!-- Profil User -->
         <div class="user-profile">
             <div class="user-avatar" id="userAvatar">?</div>
             <div class="user-name" id="userNameDisplay">User</div>
@@ -257,20 +256,17 @@
 
         // ============ LOGIKA LOGIN & SPLASH ============
         window.addEventListener('load', () => {
-            // Efek Splash Screen (2 detik)
             setTimeout(() => {
                 const splash = document.getElementById('splashScreen');
                 splash.style.opacity = '0';
                 setTimeout(() => {
                     splash.style.display = 'none';
                     
-                    // Cek apakah udah pernah login
                     const savedUser = localStorage.getItem('ishimi_user');
                     if(savedUser) {
                         currentUser = savedUser;
                         loginSuccess();
                     } else {
-                        // Tampilkan Login
                         const loginScr = document.getElementById('loginScreen');
                         loginScr.style.display = 'flex';
                         setTimeout(() => loginScr.style.opacity = '1', 50);
@@ -289,21 +285,22 @@
         }
 
         function loginSuccess() {
-            // Sembunyiin login screen
             const loginScr = document.getElementById('loginScreen');
-            loginScr.style.opacity = '0';
-            setTimeout(() => loginScr.style.display = 'none', 500);
+            if(loginScr) {
+                loginScr.style.opacity = '0';
+                setTimeout(() => loginScr.style.display = 'none', 500);
+            }
 
-            // Munculin chat
             const mainChat = document.getElementById('mainChat');
-            mainChat.style.display = 'flex';
+            if(mainChat) mainChat.style.display = 'flex';
 
-            // Set Profil Sidebar
             document.getElementById('userNameDisplay').innerText = currentUser;
             document.getElementById('userAvatar').innerText = currentUser.charAt(0).toUpperCase();
 
-            // Init App
-            initApp();
+            // PANGGIL INI CUMA SEKALI BIAR GAK CRASH
+            if(Object.keys(chatThreads).length === 0) {
+                buatObrolanBaru();
+            }
             renderInputArea();
         }
 
@@ -314,4 +311,5 @@
 
         // ============ SIDEBAR MOBILE ============
         function toggleSidebar() {
-     
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.
